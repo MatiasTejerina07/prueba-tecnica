@@ -1,0 +1,31 @@
+export interface ResponseWebSocket {
+    address:            string;
+    balance_based:      string;
+    confirmed_amount:   number;
+    created_at:         Date;
+    crypto_amount:      number;
+    currency_id:        string;
+    edited_at:          Date;
+    expired_time:       Date;
+    fiat:               string;
+    fiat_amount:        number;
+    good_fee:           boolean;
+    identifier:         string;
+    internal_data:      null;
+    language:           string;
+    merchant_device:    string;
+    merchant_device_id: number;
+    notes:              null;
+    percentage:         number;
+    rbf:                boolean;
+    received_amount:    number;
+    reference:          string;
+    safe:               boolean;
+    status:             string;
+    tag_memo:           string;
+    transactions:       any[];
+    unconfirmed_amount: number;
+    url_ko:             null;
+    url_ok:             null;
+    url_standby:        null;
+}

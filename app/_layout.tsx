@@ -1,37 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Provider } from "react-redux";
+import { useEffect } from "react";
+import { Slot } from "expo-router";
+import { setStatusBarStyle } from "expo-status-bar";
+import * as SplashScreen from "expo-splash-screen";
+import * as NavigationBar from "expo-navigation-bar";
+import { store } from "@/store/store";
+import useFont from "@/hooks/useFonts";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  useEffect(() => {
+    setStatusBarStyle("dark");
+  }, []);
+
+  const { isLoading } = useFont();
 
   useEffect(() => {
-    if (loaded) {
+    SplashScreen.preventAutoHideAsync();
+    setStatusBarStyle("dark");
+    NavigationBar.setBackgroundColorAsync("white");
+    NavigationBar.setButtonStyleAsync("light");
+    NavigationBar.setVisibilityAsync("hidden");
+
+    const hiddenNavigationBar = async () => {
+      await NavigationBar.setBehaviorAsync("overlay-swipe");
+    };
+
+    hiddenNavigationBar();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [isLoading]);
 
-  if (!loaded) {
+  if (isLoading) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Provider store={store}>
+      <Slot />
+    </Provider>
   );
 }
