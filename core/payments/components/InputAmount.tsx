@@ -18,8 +18,6 @@ export default function InputAmount({
   const [isFocused, setIsFocused] = useState(false);
   const isSymbolLeft = position === "left";
 
- 
-  
   return (
     <View style={styles.container}>
       <View

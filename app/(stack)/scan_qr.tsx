@@ -9,7 +9,6 @@ export default function ScreenScanQR() {
   const { currency, expected_output_amount, web_url } = usePayment();
   usePaymentSuccessFul();
 
-
   return (
     <View style={styles.container}>
       <View
